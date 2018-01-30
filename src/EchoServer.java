@@ -19,7 +19,7 @@ public class EchoServer{
                 try{
                     // pass the client socket to the thread
                     eThread = new EchoThread(servSock.accept());
-                    Thread thread = new Thread(eThread);
+                    Thread thread = new Thread(eThread, "Echo Thread");
                     thread.start();
                 } catch (IOException e) {
                     System.out.println("Accept failed on port 8080");
