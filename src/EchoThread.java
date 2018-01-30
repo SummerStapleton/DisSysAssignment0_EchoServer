@@ -26,13 +26,12 @@ public class EchoThread implements Runnable {
 
         try {
             // thread attempts to create readers and writers for the client socket
-            fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()), 1);
+            fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             toClient = new PrintWriter(clientSocket.getOutputStream(), true);
             Termination term = new Termination();
             char charFromClient;
             toClient.println("Please enter text: ");
             boolean remainOpen = true;
-
 
             while(remainOpen) {
                 returned = fromClient.readLine();
@@ -40,7 +39,7 @@ public class EchoThread implements Runnable {
                 {
                     charFromClient = returned.charAt(i);
                     if (charFromClient == -1) {
-                        break;
+
                     }
                     if (Character.isLetter(charFromClient)) {
                         toClient.println(charFromClient);
