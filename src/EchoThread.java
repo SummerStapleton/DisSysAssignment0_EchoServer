@@ -42,8 +42,7 @@ public class EchoThread implements Runnable {
                     toClient.println(charFromClient);
                     System.out.println("Post client write");
                     if (term.terminate(charFromClient)) {
-                        System.out.println("terminate returned true");
-                        close();
+                        break;
                     }
                 }
             }
