@@ -21,6 +21,7 @@ public class EchoServer{
                     eThread = new EchoThread(servSock.accept());
                     Thread thread = new Thread(eThread, "Echo Thread");
                     thread.start();
+                    System.out.println("Client connected.");
                 } catch (IOException e) {
                     System.out.println("Accept failed on port 8080");
                     System.exit(-1);
