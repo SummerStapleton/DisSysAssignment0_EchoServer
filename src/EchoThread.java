@@ -25,7 +25,7 @@ public class EchoThread implements Runnable {
 
         try {
             // thread attempts to create readers and writers for the client socket
-            fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()), 1);
+            fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             toClient = new PrintWriter(clientSocket.getOutputStream(), true);
             Termination term = new Termination();
             char charFromClient;
@@ -33,7 +33,7 @@ public class EchoThread implements Runnable {
 
             while(true) {
                 charFromClient = (char)fromClient.read();
-                System.out.println("Status: " + fromClient.ready());
+                System.out.println("New Status: " + fromClient.ready());
                 System.out.println("Read input: "+ charFromClient);
                 if (charFromClient == -1) {
                     break;
