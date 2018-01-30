@@ -15,6 +15,7 @@ public class EchoThread implements Runnable {
     private Socket clientSocket;
     BufferedReader fromClient = null;
     PrintWriter toClient = null;
+    String returned;
 
     // instantiate a thread instance and pass the EchoThread to it
     EchoThread(Socket socket) {
@@ -29,21 +30,30 @@ public class EchoThread implements Runnable {
             toClient = new PrintWriter(clientSocket.getOutputStream(), true);
             Termination term = new Termination();
             char charFromClient;
-            System.out.println("Status: " + fromClient.ready());
+            toClient.println("Please enter text: ");
+            boolean remainOpen = true;
 
-            while(true) {
-                charFromClient = (char)fromClient.read();
-                System.out.println("Status: " + fromClient.ready());
-                System.out.println("Read input: "+ charFromClient);
-                if (charFromClient == -1) {
-                    break;
-                }
-                if (Character.isLetter(charFromClient)) {
-                    toClient.println(charFromClient);
-                    if (term.terminate(charFromClient)) {
+
+            while(remainOpen) {
+                returned = fromClient.readLine();
+                for(int i = 0; i < returned.length(); i++)
+                {
+                    charFromClient = returned.charAt(i);
+                    if (charFromClient == -1) {
                         break;
                     }
+                    if (Character.isLetter(charFromClient)) {
+                        toClient.println(charFromClient);
+                        if (term.terminate(charFromClient)) {
+                            remainOpen = false;
+                            break;
+                        }
+                    }
                 }
+                if(remainOpen == false){
+                    break;
+                }
+                toClient.println("Please enter more text: ");
             }
         } catch (Exception e) {
             System.out.println("Failed to read or write input, or client connection was severed.");
@@ -55,6 +65,7 @@ public class EchoThread implements Runnable {
 
     public void close() {
         try {
+            toClient.write("Closing connection...");
             fromClient.close();
             toClient.close();
             clientSocket.close();
