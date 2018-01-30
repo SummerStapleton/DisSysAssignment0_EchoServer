@@ -74,16 +74,22 @@ class Termination {
     }
 
     boolean terminate(char input) {
-        if (input == 'q') state = 1;
-
-        if (input == 'u' && state == 1) state = 2;
-
-        if (input == 'i' && state == 2) state = 3;
-
-        if (input == 't' && state == 3) state = 4;
-
-        else state = 0;
-
-        return state == 4;
+        if (input == 'q') {
+            this.state = 1;
+        }
+        else if (input == 'u' && state == 1) {
+            this.state = 2;
+        }
+        else if (input == 'i' && state == 2) {
+            this.state = 3;
+        }
+        else if (input == 't' && state == 3) {
+            this.state = 4;
+        }
+        else {
+            this.state = 0;
+        }
+        // return a boolean to signal a quit
+        return this.state == 4;
     }
 }
